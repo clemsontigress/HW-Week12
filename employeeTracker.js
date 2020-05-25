@@ -21,26 +21,48 @@ connection.connect(function(err) {
   if (err) throw err;
   // run the start function after the connection is made to prompt the user
   start();
+  connection.end()
 });
 
 // function which prompts the user for what action they should take
 function start() {
   inquirer
     .prompt({
-      name: "postOrBid",
-      type: "list",
-      message: "Would you like to [POST] an auction or [BID] on an auction?",
-      choices: ["POST", "BID", "EXIT"]
+      name: "action",
+      type: "rawlist",
+      message: "What would you like to do?",
+      choices: [
+        "View all employees",
+        "View employees by department",
+        "View all employees by manager",
+        "Add employee",
+        "Update employee",
+        "Update role",
+        "Update manager"
+      ]
     })
     .then(function(answer) {
-      // based on their answer, either call the bid or the post functions
-      if (answer.postOrBid === "POST") {
-        postAuction();
-      }
-      else if(answer.postOrBid === "BID") {
-        bidAuction();
-      } else{
-        connection.end();
+      console.log(answer.action)
+      switch (answer.action) {
+      case "View all employees":
+        console.log("all employees");
+        break;
+
+      case "View employees by department":
+        console.log("employees by dept");
+        break;
+
+      case "View all employees by manager":
+        console.log("all employees by mgr");
+        break;
+
+      case "Add employee":
+        console.log("you are adding employee");
+        break;
+
+      case "Update employee":
+        console.log("you are updating employee");
+        break;
       }
     });
 }
