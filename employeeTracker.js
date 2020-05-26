@@ -19,9 +19,10 @@ var connection = mysql.createConnection({
 // connect to the mysql server and sql database
 connection.connect(function(err) {
   if (err) throw err;
+  console.log("connected as id " + connection.threadId + "\n");
   // run the start function after the connection is made to prompt the user
   start();
-  connection.end()
+  //connection.end()
 });
 
 // function which prompts the user for what action they should take
@@ -45,7 +46,7 @@ function start() {
       console.log(answer.action)
       switch (answer.action) {
       case "View all employees":
-        console.log("all employees");
+        viewEmployees();
         break;
 
       case "View employees by department":
@@ -65,4 +66,14 @@ function start() {
         break;
       }
     });
+};
+
+function viewEmployees() {
+  var query = "SELECT first_name, last_name FROM employee"
+  connection.query(query, function(err, res) {
+    if(err) throw err;
+    console.table(res);
+    start();
+  });
 }
+
