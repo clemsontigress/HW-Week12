@@ -50,7 +50,7 @@ function start() {
         break;
 
       case "View employees by department":
-        console.log("employees by dept");
+        viewByDept();
         break;
 
       case "View all employees by manager":
@@ -77,3 +77,20 @@ function viewEmployees() {
   });
 }
 
+function viewByDept() {
+  var query = "SELECT employee.first_name, employee.last_name, department.name FROM department INNER JOIN role_ ON role_.department_id = department.id INNER JOIN employee ON employee.role_id = role_.id"
+  connection.query(query, function(err, res) {
+    if(err) throw err;
+    console.table(res);
+    start();
+  });
+}
+
+/*function viewByMgr() {
+  var query = "SELECT employee.first_name, employee.last_name, department.name FROM department INNER JOIN role_ ON role_.department_id = department.id INNER JOIN employee ON employee.role_id = role_.id"
+  connection.query(query, function(err, res) {
+    if(err) throw err;
+    console.table(res);
+    start();
+  });
+}*/
