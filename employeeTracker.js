@@ -54,7 +54,7 @@ function start() {
         break;
 
       case "View all employees by manager":
-        console.log("all employees by mgr");
+        viewByMgr();
         break;
 
       case "Add employee":
@@ -86,11 +86,11 @@ function viewByDept() {
   });
 }
 
-/*function viewByMgr() {
-  var query = "SELECT employee.first_name, employee.last_name, department.name FROM department INNER JOIN role_ ON role_.department_id = department.id INNER JOIN employee ON employee.role_id = role_.id"
+function viewByMgr() {
+  var query = "SELECT concat(e.first_name, e.last_name) employee, concat(m.first_name, m.last_name) manager FROM employee e LEFT JOIN employee m ON m.id = e.manager_id ORDER BY manager;"
   connection.query(query, function(err, res) {
     if(err) throw err;
     console.table(res);
     start();
   });
-}*/
+}
