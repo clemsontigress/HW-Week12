@@ -37,9 +37,8 @@ function start() {
         "View employees by department",
         "View all employees by manager",
         "Add employee",
-        "Update employee",
-        "Update role",
-        "Update manager"
+        "Update employee role",
+        "Quit"
       ]
     })
     .then(function(answer) {
@@ -61,9 +60,11 @@ function start() {
         addEmployee();
         break;
 
-      case "Update employee":
+      case "Update employee role":
         updateEmployee();
         break;
+        default:
+          quit();
       }
     });
 };
@@ -152,4 +153,9 @@ function updateEmployee() {
         start();
       });
     });
+}
+
+function quit() {
+  connection.end();
+  process.exit();
 }
