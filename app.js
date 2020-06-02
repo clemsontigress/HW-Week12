@@ -58,11 +58,11 @@ function start() {
         break;
 
       case "Add employee":
-        console.log("you are adding employee");
+        addEmployee();
         break;
 
       case "Update employee":
-        console.log("you are updating employee");
+        updateEmployee();
         break;
       }
     });
@@ -93,4 +93,63 @@ function viewByMgr() {
     console.table(res);
     start();
   });
+}
+
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Enter employee first name",
+        name: "firstname"
+      },
+      {
+        type: "input",
+        message: "Enter employee last name",
+        name: "lastname"
+      }
+    ])
+    .then(function(answer) {
+      connection.query(
+        "INSERT INTO employee SET ?",
+        {
+          first_name: answer.firstname,
+          last_name: answer.lastname,
+          role_id: null,
+          manager_id: null
+        },
+        function(err, res) {
+          if (err) {
+            throw err;
+          }
+          console.table(res);
+        }
+      );
+      start();
+    });
+}
+
+function updateEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Which employee's role would you like to update?",
+        name: "updateEmp"
+      },
+      {
+        type: "number",
+        message: "What is their new role ID",
+        name: "updateRole"
+      }
+    ])
+    .then(function(answer) {
+     
+      var query = 'UPDATE employee SET role_id=? WHERE first_name= ?'
+      connection.query(query,[answer.updateRole, answer.updateEmp],function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        start();
+      });
+    });
 }
